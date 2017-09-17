@@ -1,0 +1,44 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    dependencies {
+        classpath "com.moowork.gradle:gradle-node-plugin:1.2.0"
+    }
+}
+apply plugin: 'com.moowork.node'
+
+node {
+    // Version of node to use.
+    version = '6.11.3'
+    // Enabled the automatic download. False is the default (for now).
+    download = true
+}
+
+task webpack(dependsOn: ["npmInstall"], type: NodeTask) {
+    script = file('node_modules/webpack/bin/webpack')
+    args = []
+    if (project.hasProperty('optimize-frontend')) {
+        // Used for production environment
+        println "###  frontend optimization is enabled"
+        args += "-p";
+    }
+
+    if (project.hasProperty('sample-version')) {
+        println "### env.pasta-version is " + project.property("sample-version")
+        args += "--env.sampleVersion=" + project.property("sample-version")
+    }
+}
+
+task watch(type: NodeTask) {
+    script = file('node_modules/webpack/bin/webpack')
+    args = ["-w"]
+}
+
+task clean() {
+    delete project(":server").buildDir.path + "/classes/main/static"
+    delete project(":server").buildDir.path + "/classes/main/templates"
+}

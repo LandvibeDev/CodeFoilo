@@ -1,0 +1,15 @@
+server:
+  port: 8080
+  context-path: /codefolio
+
+spring:
+  messages:
+    encoding: UTF-8
+  application:
+    name: codefolio
+
+security:
+  ignored: /**
+
+codefolio:
+  dev-mode: true

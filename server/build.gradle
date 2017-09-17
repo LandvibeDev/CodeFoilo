@@ -1,0 +1,40 @@
+group 'com.landvibe.codefolio'
+version = '0.0.1-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+buildscript {
+	ext {
+		springBootVersion = '1.5.7.RELEASE'
+	}
+
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+compileJava{
+	sourceCompatibility = 1.8
+	targetCompatibility = 1.8
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile 'org.springframework.boot:spring-boot-starter-aop'
+	compile 'org.springframework.boot:spring-boot-starter-security'
+	compile 'org.springframework.boot:spring-boot-starter-web'
+	compile 'com.github.jknack:handlebars-springmvc:4.0.6'
+	compileOnly 'org.projectlombok:lombok:1.16.18'
+	testCompile 'org.springframework.boot:spring-boot-starter-test'
+	testCompile 'org.springframework.security:spring-security-test'
+}
+
+tasks.processResources.dependsOn tasks.getByPath(":frontend:webpack")
