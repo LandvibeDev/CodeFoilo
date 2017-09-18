@@ -28,7 +28,6 @@ task webpack(dependsOn: ["npmInstall"], type: NodeTask) {
     }
 
     if (project.hasProperty('sample-version')) {
-        println "### env.pasta-version is " + project.property("sample-version")
         args += "--env.sampleVersion=" + project.property("sample-version")
     }
 }

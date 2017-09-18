@@ -2,7 +2,6 @@ group 'com.landvibe.codefolio'
 version = '0.0.1-SNAPSHOT'
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
 buildscript {
@@ -15,6 +14,17 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+jar {
+	manifest {
+		attributes  'Title': 'CodeFolio', 'Version': version, 'Main-Class': 'com.landvibe.codefolio.Application'
+	}
+	archiveName 'codefolio.jar'
+	dependsOn configurations.runtime
+	from {
+		configurations.compile.collect {it.isDirectory()? it: zipTree(it)}
 	}
 }
 
@@ -31,6 +41,7 @@ dependencies {
 	compile 'org.springframework.boot:spring-boot-starter-aop'
 	compile 'org.springframework.boot:spring-boot-starter-security'
 	compile 'org.springframework.boot:spring-boot-starter-web'
+	compile 'org.springframework.boot:spring-boot-starter-tomcat'
 	compile 'com.github.jknack:handlebars-springmvc:4.0.6'
 	compileOnly 'org.projectlombok:lombok:1.16.18'
 	testCompile 'org.springframework.boot:spring-boot-starter-test'
