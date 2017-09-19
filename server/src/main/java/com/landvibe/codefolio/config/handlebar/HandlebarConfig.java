@@ -14,17 +14,12 @@ public class HandlebarConfig {
     @Value("${codefolio.dev-mode}")
     private boolean devMode;
 
-    @Value("${server.context-path}")
-    private String contextPath;
-
     @Bean
     public ViewResolver viewResolver(){
         HandlebarsViewResolver viewResolver = new HandlebarsViewResolver();
         viewResolver.setCache(!devMode);
         viewResolver.setPrefix("classpath:/templates/");
         viewResolver.setSuffix(".html");
-        HashMap<String, String> defaultAttrs = new HashMap<>();
-        defaultAttrs.put("contextPath",contextPath);
         return viewResolver;
     }
 }

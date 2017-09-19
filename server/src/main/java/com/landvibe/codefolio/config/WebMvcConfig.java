@@ -27,7 +27,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         String staticPathPatterns[] = new String[]{
-                "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.swf", "/**/*.csv", "/**/*.css", "/**/*.html", "/**/*.gif",
+                "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.jpeg", "/**/*.swf", "/**/*.csv", "/**/*.css", "/**/*.html", "/**/*.gif",
                 "/**/*.ico", "/**/*.woff", "/**/*.woff2", "/**/*.ttf"
         };
         Integer cachePeriod = this.resourceProperties.getCachePeriod();

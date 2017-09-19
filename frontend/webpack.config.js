@@ -30,7 +30,8 @@ module.exports = function (env) {
 
     var webpackConfig = {
         entry: {
-            'app': 'entries/app.js'
+            'app-main': 'entries/app-main.js',
+            'app-welcome': 'entries/app-welcome.js'
         },
         output: {
             path: outputDir,
@@ -41,6 +42,7 @@ module.exports = function (env) {
                 path.join(__dirname, "src/js"),
                 "./src/js/components",
                 "./src/js/modules",
+                "./src/js/roots",
                 "node_modules",
                 "./src/less",
                 path.join(__dirname, "./../server/src/main/resources")
