@@ -6,6 +6,13 @@ spring:
     encoding: UTF-8
   application:
     name: codefolio
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://codefolio.cx1hldbpd8hb.ap-northeast-2.rds.amazonaws.com:3306/codefolio
+    username: codefolio
+    password: landvibe123
 
 codefolio:
   dev-mode: true
