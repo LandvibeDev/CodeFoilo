@@ -7,8 +7,5 @@ spring:
   application:
     name: codefolio
 
-security:
-  ignored: /**
-
 codefolio:
   dev-mode: true
