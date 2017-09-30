@@ -1,5 +1,6 @@
 package com.landvibe.codefolio.config;
 
+import com.landvibe.codefolio.config.resolver.CurrentUserHandlerMethodArgumentResolver;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,9 +20,15 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         /**
-         * resolver 생성시 이곳에 bean객체를 만들고 argumentResolvers에 add 해줄 것
+         * resolver 생성시 이곳에 bean 객체를 만들고 argumentResolvers에 add 해줄 것
          */
+        argumentResolvers.add(currentUserHandlerMethodArgumentResolver());
         super.addArgumentResolvers(argumentResolvers);
+    }
+
+    @Bean
+    public CurrentUserHandlerMethodArgumentResolver currentUserHandlerMethodArgumentResolver(){
+        return new CurrentUserHandlerMethodArgumentResolver();
     }
 
     @Override

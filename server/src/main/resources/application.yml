@@ -13,6 +13,14 @@ spring:
     url: jdbc:mysql://codefolio.cx1hldbpd8hb.ap-northeast-2.rds.amazonaws.com:3306/codefolio
     username: codefolio
     password: landvibe123
+  session:
+    store-type: none
 
 codefolio:
   dev-mode: true
+
+security:
+  user:
+    name: admin
+    password: admin1234
+

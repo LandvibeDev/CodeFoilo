@@ -1,61 +1,85 @@
 package com.landvibe.codefolio.service;
 
-import com.landvibe.codefolio.model.Account;
-import com.landvibe.codefolio.model.Privilege;
+import com.landvibe.codefolio.error.UserExistException;
 import com.landvibe.codefolio.model.Role;
-import com.landvibe.codefolio.repository.AccountRepository;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import com.landvibe.codefolio.model.User;
+import com.landvibe.codefolio.repository.RoleRepository;
+import com.landvibe.codefolio.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
 
-    private AccountService accountService;
+    private UserRepository userRepository;
 
-    public UserService(AccountService accountService) {
-        this.accountService = accountService;
+    private RoleRepository roleRepository;
+
+    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = accountService.getAccount(username);
-        if (account == null) {
-            throw new UsernameNotFoundException("login fail");
+    public User loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException(username + "는 존재하지 않는 유저입니다.");
         }
-        return new User(account.getUsername(),account.getPassword(),getAuthorities(account.getRoles()));
+        return user;
     }
 
-    private Collection<? extends GrantedAuthority> getAuthorities(Collection<Role> roles) {
-        return getGrantedAuthorities(getPrivileges(roles));
+    @Transactional
+    public User create(User newUser) throws UserExistException {
+        boolean exists = userRepository.existsByName(newUser.getUsername());
+        if (exists) {
+            throw new UserExistException("이미 존재하는 유저입니다.");
+        }
+
+        Role roleUser = getNormalUserRole("ROLE_USER");
+        Role roleUserName = new Role("ROLE_" + newUser.getUsername().toUpperCase());
+        List<Role> roles = new ArrayList<>(Arrays.asList(roleUser, roleUserName));
+
+        String password = newUser.getPassword();
+        newUser.setPassword(new BCryptPasswordEncoder().encode(password));
+        newUser.setRoles(roles);
+
+        return userRepository.save(newUser);
     }
 
-    private List<String> getPrivileges(Collection<Role> roles) {
-
-        List<String> privileges = new ArrayList<>();
-        List<Privilege> collection = new ArrayList<>();
-        for (Role role : roles) {
-            collection.addAll(role.getPrivileges());
+    // 캐싱 필요
+    Role getNormalUserRole(String normalUserRoleName) {
+        Role normalUserRole = roleRepository.findRoleByName(normalUserRoleName);
+        if (normalUserRole == null) {
+            return new Role(normalUserRoleName);
+        } else {
+            return normalUserRole;
         }
-        for (Privilege item : collection) {
-            privileges.add(item.getName());
-        }
-        return privileges;
     }
 
-    private List<GrantedAuthority> getGrantedAuthorities(List<String> privileges) {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        for (String privilege : privileges) {
-            authorities.add(new SimpleGrantedAuthority(privilege));
+    @Transactional
+    public User update(User user) throws UsernameNotFoundException {
+        boolean exists = userRepository.exists(user.getId());
+        if (!exists) {
+            throw new UsernameNotFoundException(user.getUsername() + "는 존재하지 않는 유저입니다.");
         }
-        return authorities;
+        return userRepository.save(user);
+    }
+
+    @Transactional
+    public void delete(User user) {
+        long uid = user.getId();
+        boolean exists = userRepository.exists(uid);
+        if (!exists) {
+            throw new UsernameNotFoundException(user.getUsername() + "는 존재하지 않는 유저입니다.");
+        }
+        userRepository.delete(uid);
     }
 }
