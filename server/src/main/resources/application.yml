@@ -1,6 +1,14 @@
 server:
   port: 8080
 
+codefolio:
+  dev-mode: true
+
+security:
+  user:
+    name: admin
+    password: admin1234
+
 spring:
   messages:
     encoding: UTF-8
@@ -16,11 +24,19 @@ spring:
   session:
     store-type: none
 
-codefolio:
-  dev-mode: true
+---
 
-security:
-  user:
-    name: admin
+spring:
+  profiles: local
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:3306/codefolio
+    username: root
     password: admin1234
+  session:
+    store-type: none
+
+
 
