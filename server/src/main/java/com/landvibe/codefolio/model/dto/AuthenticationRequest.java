@@ -1,4 +1,4 @@
-package com.landvibe.codefolio.model;
+package com.landvibe.codefolio.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;

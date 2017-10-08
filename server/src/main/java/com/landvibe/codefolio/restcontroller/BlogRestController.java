@@ -7,6 +7,8 @@ import com.landvibe.codefolio.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -19,8 +21,14 @@ public class BlogRestController {
 
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     @GetMapping("/api/blogs")
-    public List<Blog> getBlogs(@CurrentUser User user){
+    public List<Blog> getBlogs(@CurrentUser User user) {
         List<Blog> blogs = blogService.getAllBlogList();
         return blogs;
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @PostMapping("/api/blogs")
+    public Blog createBlog(@CurrentUser User user, @RequestBody Blog blog) {
+        return blogService.createBlog(blog, user);
     }
 }
