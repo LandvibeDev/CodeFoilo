@@ -105,8 +105,7 @@
                 .then(res => {
                     const statusCode = res.status;
                     if (statusCode === 200) {
-                        console.log(res)
-                        window.location.href = '/login';
+                        this.$router.push("/login")
                     }
                     console.log(res)
                 }).catch(err => {

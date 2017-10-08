@@ -67,8 +67,7 @@
                 .then(res => {
                     const statusCode = res.status;
                     if (statusCode === 200) {
-                        console.log(res)
-                        window.location.href = '/';
+                        this.$router.push("/")
                     }
                 }).catch(err => {
                 // swal 띄우기
