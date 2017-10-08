@@ -1,52 +1,38 @@
 <template>
     <v-app light>
-        <v-layout>
-            <v-flex xs12 sm6 offset-sm3>
-                <v-card>
-                    <v-card-title
-                            class="blue-grey darken-2 white--text"
-                    >
-                        <v-container fill-height fluid>
-                            <v-layout fill-height>
-                                <v-flex xs12 align-end flexbox>
-                                    <span class="headline">Login</span>
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
-                    </v-card-title>
-                    <v-card-title>
-                        <v-container fill-height fluid>
-                            <v-layout fill-height>
-                                <v-flex xs12 align-end flexbox>
-                                    <v-form v-model="valid" ref="form">
-                                        <v-text-field
-                                                label="E-mail"
-                                                v-model="email"
-                                                :rules="emailRules"
-                                                required
-                                        ></v-text-field>
-                                        <v-text-field
-                                                label="Enter your password"
-                                                hint="At least 8 characters"
-                                                v-model="password"
-                                                min="8"
-                                                :append-icon="e1 ? 'visibility' : 'visibility_off'"
-                                                :append-icon-cb="() => (e1 = !e1)"
-                                                :type="e1 ? 'password' : 'text'"
-                                                counter
-                                        ></v-text-field>
-                                    </v-form>
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
-                    </v-card-title>
-                    <v-card-actions>
-                        <v-btn @click="submit" :class="{ green: valid, red: !valid }">submit</v-btn>
-                        <v-btn @click="clear">clear</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-flex>
-        </v-layout>
+        <v-parallax src="/img/bluegreen.jpg" height="733">
+            <v-layout align-center justify-center>
+                <v-flex xs12 sm8 md3>
+                    <img class="center-image" src="/img/icon2.png" height="50">
+                    <v-form v-model="valid" ref="form">
+                        <v-text-field
+                                label="E-mail"
+                                v-model="email"
+                                :rules="emailRules"
+                                dark
+                                required
+                        ></v-text-field>
+                        <v-text-field
+                                label="Enter your password"
+                                hint="At least 8 characters"
+                                v-model="password"
+                                min="8"
+                                :append-icon="pwdHidden ? 'visibility' : 'visibility_off'"
+                                :append-icon-cb="() => (pwdHidden = !pwdHidden)"
+                                :type="pwdHidden ? 'password' : 'text'"
+                                :rules="passwordRule"
+                                dark
+                                counter
+                        ></v-text-field>
+                        <v-card-actions align-center>
+                            <v-btn block :disabled="!valid"  @click="submit">
+                                Submit
+                            </v-btn>
+                        </v-card-actions>
+                    </v-form>
+                </v-flex>
+            </v-layout>
+        </v-parallax>
     </v-app>
 </template>
 <script>
@@ -56,10 +42,14 @@
     @Component
     export default class Login extends Base {
         valid = false;
+        pwdHidden=false;
         email = '';
         emailRules = [
             (v) => !!v || 'E-mail is required',
             (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+        ];
+        passwordRule = [
+            (v) => v.length >= 8 || "Password must be at least 8 characters."
         ];
         password = '';
 
@@ -69,7 +59,7 @@
             }
 
             const postData = {
-                email: this.email,
+                username: this.email,
                 password: this.password
             };
 
@@ -77,6 +67,7 @@
                 .then(res => {
                     const statusCode = res.status;
                     if (statusCode === 200) {
+                        console.log(res)
                         window.location.href = '/';
                     }
                 }).catch(err => {
@@ -90,7 +81,15 @@
         }
 
         mounted() {
-
+            this.pwdHidden=true;
         }
     }
 </script>
+<style lang="less" scoped>
+    .center-image {
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 130px;
+        display: block;
+    }
+</style>
