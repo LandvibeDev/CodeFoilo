@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import Welcome from 'Welcome.vue';
 import Login from 'auth/Login.vue';
+import Signup from 'auth/Signup.vue';
 import Main from 'Main.vue';
 
 Vue.use(Vuetify);
@@ -17,6 +18,7 @@ const router = new VueRouter({
     routes: [
         { path: '/', name: 'welcome', component: Welcome },
         { path: '/login', name: 'login', component: Login },
+        { path: '/signup', name: 'signup', component: Signup },
         { path: '/main', name: 'main', component: Main }
     ]
 });
