@@ -107,7 +107,6 @@
                     if (statusCode === 200) {
                         this.$router.push("/login")
                     }
-                    console.log(res)
                 }).catch(err => {
                 // swal 띄우기
             });
