@@ -28,7 +28,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public User loadUserByUsername(String username) throws UsernameNotFoundException {
+    public User loadUserByUsername(String username) {
         User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException(username + "는 존재하지 않는 유저입니다.");
@@ -37,10 +37,10 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public User create(User newUser) throws UserExistException {
+    public User create(User newUser) {
         boolean exists = userRepository.existsByName(newUser.getUsername());
         if (exists) {
-            throw new UserExistException("이미 존재하는 유저입니다.");
+            throw new UserExistException(newUser.getUsername() + "는 이미 존재하는 유저입니다.");
         }
 
         Role roleUser = getNormalUserRole("ROLE_USER");
@@ -65,7 +65,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public User update(User user) throws UsernameNotFoundException {
+    public User update(User user) {
         boolean exists = userRepository.exists(user.getId());
         if (!exists) {
             throw new UsernameNotFoundException(user.getUsername() + "는 존재하지 않는 유저입니다.");
