@@ -1,1 +1,1 @@
-# CodeFoilo
+# CodeFoilo [![Build Status](https://travis-ci.org/LandvibeDev/CodeFoilo.svg?branch=develop)](https://travis-ci.org/LandvibeDev/CodeFoilo)
