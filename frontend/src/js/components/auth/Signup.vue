@@ -1,6 +1,6 @@
 <template>
     <v-app light>
-        <v-parallax src="/img/bluegreen.jpg" height="733">
+        <v-parallax class="background-image" src="/img/bluegreen.jpg">
             <v-layout align-center justify-center>
                 <v-flex xs12 sm9 md5>
                     <img class="center-image" src="/img/icon2.png" height="50">
@@ -86,8 +86,8 @@
         confirmRule = [];   // init at mounted
 
         mounted() {
-            this.pwdHidden=true;
-            this.cfmHidden=true;
+            this.pwdHidden = true;
+            this.cfmHidden = true;
             this.confirmRule = [
                 (v) => this.password === this.passwordCfm || "Password not correct"
             ];
@@ -105,10 +105,17 @@
                 .then(res => {
                     const statusCode = res.status;
                     if (statusCode === 200) {
+                        this.$swal("Welcome to CodeFolio!", "", "success")
                         this.$router.push("/login")
                     }
                 }).catch(err => {
-                // swal 띄우기
+                const errCode = err.response.status;
+                if (errCode === 409) {
+                    this.$swal("Fail!", "Email already exists. Please choose a different email id.", "error")
+                }
+                else {
+                    this.$swal("Error!", "Internal server error", "error")
+                }
             });
         }
 
@@ -116,14 +123,10 @@
             this.$refs.form.reset()
         }
 
-
     }
 </script>
 <style lang="less" scoped>
-    .center-image {
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 70px;
-        display: block;
+    .background-image {
+        min-height: 100vh;
     }
 </style>

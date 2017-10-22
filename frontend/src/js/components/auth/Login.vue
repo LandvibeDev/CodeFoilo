@@ -1,6 +1,6 @@
 <template>
     <v-app light>
-        <v-parallax src="/img/bluegreen.jpg" height="733">
+        <v-parallax class="background-image" src="/img/bluegreen.jpg">
             <v-layout align-center justify-center>
                 <v-flex xs12 sm8 md3>
                     <img class="center-image" src="/img/icon2.png" height="50">
@@ -70,7 +70,13 @@
                         this.$router.push("/")
                     }
                 }).catch(err => {
-                // swal 띄우기
+                    const errCode = err.response.status;
+                    if (errCode === 404) {
+                        this.$swal("Fail!", "The user e-mail or Password is invalid.", "error")
+                    }
+                    else {
+                        this.$swal("Error!", "Internal server error", "error")
+                    }
             });
 
         }
@@ -85,6 +91,9 @@
     }
 </script>
 <style lang="less" scoped>
+    .background-image {
+        min-height: 100vh;
+    }
     .center-image {
         margin-left: auto;
         margin-right: auto;

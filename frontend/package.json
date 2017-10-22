@@ -23,6 +23,7 @@
     "q": "^1.4.1",
     "vue": "^2.4.2",
     "vue-router": "^2.7.0",
+    "vue-swal": "0.0.6",
     "vuejs-paginate": "^1.2.0",
     "vuetify": "^0.15.7"
   },
