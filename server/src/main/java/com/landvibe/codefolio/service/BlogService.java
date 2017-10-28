@@ -4,6 +4,8 @@ import com.landvibe.codefolio.error.NotFoundException;
 import com.landvibe.codefolio.model.Blog;
 import com.landvibe.codefolio.model.User;
 import com.landvibe.codefolio.repository.BlogRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,12 +24,16 @@ public class BlogService {
         return blogRepository.findByTitle(title);
     }
 
-    public List<Blog> getAllBlogList() {
+    public List<Blog> getAllBlog() {
         return blogRepository.findAll();
     }
 
-    public Blog getBlogOne(long id){
-        return blogRepository.findOne(id);
+    public Blog getBlog(long id) {
+        Blog blog = blogRepository.findOne(id);
+        if (blog == null) {
+            throw new NotFoundException("해당 게시물은 존재하지 않습니다..");
+        }
+        return blog;
     }
 
     @Transactional
@@ -37,21 +43,27 @@ public class BlogService {
     }
 
     @Transactional
-    public Blog updateBlog(Blog blog) {
-        boolean exists = blogRepository.exists(blog.getId());
-        if (!exists) {
+    public Blog updateBlog(User user, long id, Blog newBlog) {
+        Blog blog = blogRepository.findOne(id);
+        if (blog == null) {
             throw new NotFoundException("해당 게시물은 존재하지 않습니다..");
         }
+        if (user.getId() != blog.getCreator().getId()) {
+            throw new AccessDeniedException("해당 게시물을 수정할 수 있는 권한이 없습니다.");
+        }
+        blog.updateBlog(newBlog);
         return blogRepository.save(blog);
     }
 
     @Transactional
-    public void deleteBlog(Blog blog) {
-        long id = blog.getId();
-        boolean exists = blogRepository.exists(id);
-        if (!exists) {
+    public void deleteBlog(User user, long id) {
+        Blog blog = blogRepository.findOne(id);
+        if (blog == null) {
             throw new NotFoundException("해당 게시물은 존재하지 않습니다..");
         }
-        blogRepository.delete(id);
+        if (user.getId() != blog.getCreator().getId()) {
+            throw new AccessDeniedException("해당 게시물을 수정할 수 있는 권한이 없습니다.");
+        }
+        blogRepository.delete(blog);
     }
 }

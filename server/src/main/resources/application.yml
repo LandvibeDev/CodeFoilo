@@ -17,6 +17,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    show-sql: true
+    open-in-view: true
   datasource:
     url: jdbc:mysql://codefolio.cx1hldbpd8hb.ap-northeast-2.rds.amazonaws.com:3306/codefolio
     username: codefolio

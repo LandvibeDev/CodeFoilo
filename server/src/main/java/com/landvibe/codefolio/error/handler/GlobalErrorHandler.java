@@ -1,8 +1,10 @@
 package com.landvibe.codefolio.error.handler;
 
+import com.landvibe.codefolio.error.NotFoundException;
 import com.landvibe.codefolio.error.UserExistException;
 import com.landvibe.codefolio.error.model.ErrorInfo;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
-public class RestControllerErrorHandler {
+public class GlobalErrorHandler {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(value = UsernameNotFoundException.class)
@@ -26,9 +28,21 @@ public class RestControllerErrorHandler {
         return new ErrorInfo(req.getRequestURL().toString(), e.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(value = NotFoundException.class)
+    public ErrorInfo handleNotFoundException(HttpServletRequest req, NotFoundException e) {
+        return new ErrorInfo(req.getRequestURL().toString(), e.getMessage());
+    }
+
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(value = UserExistException.class)
     public ErrorInfo handleUserExistException(HttpServletRequest req, UserExistException e) {
+        return new ErrorInfo(req.getRequestURL().toString(), e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(value = AccessDeniedException.class)
+    public ErrorInfo handleAccessDeniedException(HttpServletRequest req, AccessDeniedException e) {
         return new ErrorInfo(req.getRequestURL().toString(), e.getMessage());
     }
 

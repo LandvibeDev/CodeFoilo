@@ -1,29 +1,38 @@
 package com.landvibe.codefolio.model;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.io.Serializable;
+import java.util.Calendar;
 
 @Getter
 @Setter
 @ToString
 @Entity
-public class Blog {
+public class Blog implements Serializable {
+
+    private static final long serialVersionUID = -4350784958370090422L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String title;
     private String contents;
 
-    private Date createdAt;
-    private Date updatedAt;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Calendar createdAt;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Calendar updatedAt;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User creator;
 
-    private Blog(){
+    protected Blog() {
         initTimes();
     }
 
@@ -33,7 +42,7 @@ public class Blog {
         initTimes();
     }
 
-    public Blog(String title, String contents, Date createdAt, Date updatedAt, User creator) {
+    public Blog(String title, String contents, Calendar createdAt, Calendar updatedAt, User creator) {
         this.title = title;
         this.contents = contents;
         this.createdAt = createdAt;
@@ -41,9 +50,15 @@ public class Blog {
         this.creator = creator;
     }
 
-    private void initTimes(){
-        this.createdAt = new Date();
+    private void initTimes() {
+        this.createdAt = Calendar.getInstance();
         this.updatedAt = this.createdAt;
+    }
+
+    public void updateBlog(Blog blog) {
+        this.title = blog.getTitle();
+        this.contents = blog.getContents();
+        this.updatedAt = Calendar.getInstance();
     }
 
 }
