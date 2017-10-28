@@ -5,9 +5,10 @@ import com.landvibe.codefolio.model.Blog;
 import com.landvibe.codefolio.model.User;
 import com.landvibe.codefolio.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,9 +19,38 @@ public class BlogRestController {
     private BlogService blogService;
 
     @PreAuthorize("hasAnyRole('ROLE_USER')")
-    @GetMapping("/api/blogs")
-    public List<Blog> getBlogs(@CurrentUser User user){
-        List<Blog> blogs = blogService.getAllBlogList();
-        return blogs;
+    @GetMapping("/api/blog")
+    @ResponseStatus(value = HttpStatus.OK)
+    public List<Blog> getAllBlog(@CurrentUser User user) {
+        List<Blog> allBlog = blogService.getAllBlog();
+        return allBlog;
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @GetMapping("/api/blog/{id}")
+    @ResponseStatus(value = HttpStatus.OK)
+    public Blog getBlog(@CurrentUser User user, @PathVariable long id) {
+        return blogService.getBlog(id);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @PostMapping("/api/blog")
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public Blog createBlog(@CurrentUser User user, @RequestBody Blog blog) {
+        return blogService.createBlog(blog, user);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @PutMapping("/api/blog/{id}")
+    @ResponseStatus(value = HttpStatus.OK)
+    public Blog updateBlog(@CurrentUser User user, @PathVariable long id, @RequestBody Blog blog) {
+        return blogService.updateBlog(user, id, blog);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @DeleteMapping("/api/blog/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteBlog(@CurrentUser User user, @PathVariable long id) {
+        blogService.deleteBlog(user, id);
     }
 }

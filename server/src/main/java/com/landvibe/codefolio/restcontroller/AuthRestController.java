@@ -1,6 +1,6 @@
 package com.landvibe.codefolio.restcontroller;
 
-import com.landvibe.codefolio.model.AuthenticationRequest;
+import com.landvibe.codefolio.model.dto.AuthenticationRequest;
 import com.landvibe.codefolio.model.User;
 import com.landvibe.codefolio.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
