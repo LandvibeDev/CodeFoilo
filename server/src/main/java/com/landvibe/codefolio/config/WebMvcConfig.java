@@ -5,14 +5,11 @@ import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import java.util.List;
 
 @Configuration
-@EnableWebMvc
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     private ResourceProperties resourceProperties = new ResourceProperties();
@@ -43,12 +40,4 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                 .setCachePeriod(cachePeriod);
     }
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**/fonts/**").allowedOrigins("*");
-        registry.addMapping("/**/js/**").allowedOrigins("*");
-        registry.addMapping("/**/img/**").allowedOrigins("*");
-        registry.addMapping("/**/html/**").allowedOrigins("*");
-        registry.addMapping("/**/fonts/fontawesome-webfont.woff2").allowedOrigins("*");
-    }
 }
