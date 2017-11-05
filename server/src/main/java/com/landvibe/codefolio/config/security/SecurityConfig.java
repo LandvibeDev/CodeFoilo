@@ -45,7 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/**/*.ico",
                 "/**/*.woff",
                 "/**/*.woff2",
-                "/**/*.ttf");
+                "/**/*.ttf",
+                "/**/*.json"
+        );
     }
 
     @Override
@@ -58,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/", "/main", "/login", "/signup", "/api/login", "/api/signup").permitAll()
+                .antMatchers("/portfolio").permitAll() // TODO 포트폴리오 페이지 완성시 삭제
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

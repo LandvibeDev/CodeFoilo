@@ -5,7 +5,6 @@ var webpack = require("webpack");
 
 var outputDir = path.resolve("../server/build/classes/main");
 
-
 var argv = require('yargs').argv;
 var productionBuild = argv.p || false;
 if (productionBuild) {
@@ -88,7 +87,17 @@ module.exports = function (env) {
                 },
                 {
                     test: /\.(woff|woff2|ttf|eot|svg)(\?]?.*)?$/,
-                    loader: 'file-loader?name=fonts/[name].[ext]'
+                    use: [
+                        {
+                            loader: 'file-loader',
+                            options: {
+                                name: 'static/fonts/[name].[ext]',
+                                publicPath: function (url) {
+                                    return url.replace(/static/, '')
+                                },
+                            }
+                        }
+                    ]
                 },
                 {
                     test: /\.js$/,
@@ -112,7 +121,7 @@ module.exports = function (env) {
                 {
                     context: 'src/js/library',
                     from: '**/*',
-                    to: 'static/js/library'
+                    to: 'static/js'
                 },
                 {
                     context: 'src/js',
@@ -128,6 +137,11 @@ module.exports = function (env) {
                     context: 'src/img',
                     from: '**/*',
                     to: 'static/img'
+                },
+                {
+                    context: 'src/js/modules',
+                    from: '**/*',
+                    to: 'static/'
                 }
             ]),
             new webpack.LoaderOptionsPlugin({
