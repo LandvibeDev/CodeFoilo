@@ -32,7 +32,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         String staticPathPatterns[] = new String[]{
                 "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.jpeg", "/**/*.swf", "/**/*.csv", "/**/*.css", "/**/*.html", "/**/*.gif",
-                "/**/*.ico", "/**/*.woff", "/**/*.woff2", "/**/*.ttf"
+                "/**/*.ico", "/**/*.woff", "/**/*.woff2", "/**/*.ttf","/**/*.json"
         };
         Integer cachePeriod = this.resourceProperties.getCachePeriod();
         registry.addResourceHandler(staticPathPatterns)

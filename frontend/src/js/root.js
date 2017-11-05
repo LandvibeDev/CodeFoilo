@@ -4,12 +4,15 @@ import Vuetify from 'vuetify'
 import axios from 'axios';
 import VueSwal from 'vue-swal'
 import VueMoment from 'vue-moment';
+import { Progress } from 'element-ui'
 
 import Welcome from 'Welcome.vue';
 import Login from 'auth/Login.vue';
 import Signup from 'auth/Signup.vue';
 import Main from 'Main.vue';
 import Portfolio from 'portfolio/Portfolio.vue'
+
+Vue.use(Progress);
 
 Vue.use(VueSwal);
 Vue.use(Vuetify);

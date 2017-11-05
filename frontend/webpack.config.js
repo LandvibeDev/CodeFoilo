@@ -137,6 +137,11 @@ module.exports = function (env) {
                     context: 'src/img',
                     from: '**/*',
                     to: 'static/img'
+                },
+                {
+                    context: 'src/js/modules',
+                    from: '**/*',
+                    to: 'static/'
                 }
             ]),
             new webpack.LoaderOptionsPlugin({

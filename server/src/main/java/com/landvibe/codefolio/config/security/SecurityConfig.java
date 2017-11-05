@@ -45,7 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/**/*.ico",
                 "/**/*.woff",
                 "/**/*.woff2",
-                "/**/*.ttf");
+                "/**/*.ttf",
+                "/**/*.json"
+        );
     }
 
     @Override

@@ -1,11 +1,18 @@
 {
   "presets":[
+    ["es2015", { "modules": false }],
     ["env", {"modules":false}],
     "stage-2"
   ],
   "plugins": [
     "transform-decorators-legacy",
-    "transform-runtime"
+    "transform-runtime",
+    ["component", [
+      {
+        "libraryName": "element-ui",
+        "styleLibraryName": "theme-chalk"
+      }
+    ]]
   ],
   "comments": false
 }
