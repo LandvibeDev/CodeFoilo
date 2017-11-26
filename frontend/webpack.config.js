@@ -35,7 +35,8 @@ module.exports = function (env) {
             path: outputDir,
             publicPath: "/",
             filename: "./static/js/[name].js"
-        }, resolve: {
+        },
+        resolve: {
             modules: [
                 path.join(__dirname, "src/js"),
                 "./src/js/components",
