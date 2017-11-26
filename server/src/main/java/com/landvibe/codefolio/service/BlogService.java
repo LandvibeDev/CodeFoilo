@@ -4,8 +4,8 @@ import com.landvibe.codefolio.error.NotFoundException;
 import com.landvibe.codefolio.model.Blog;
 import com.landvibe.codefolio.model.User;
 import com.landvibe.codefolio.repository.BlogRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +26,10 @@ public class BlogService {
 
     public List<Blog> getAllBlog() {
         return blogRepository.findAll();
+    }
+
+    public List<Blog> getBlogsByUserId(long id) {
+        return blogRepository.findBlogsByCreatorId(id);
     }
 
     public Blog getBlog(long id) {

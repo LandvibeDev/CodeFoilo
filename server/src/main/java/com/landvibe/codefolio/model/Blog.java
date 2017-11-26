@@ -23,8 +23,11 @@ public class Blog implements Serializable {
     private String title;
     private String contents;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Calendar createdAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Calendar updatedAt;
 
