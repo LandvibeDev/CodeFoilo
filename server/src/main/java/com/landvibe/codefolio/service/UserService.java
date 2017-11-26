@@ -44,8 +44,7 @@ public class UserService implements UserDetailsService {
         }
 
         Role roleUser = getNormalUserRole("ROLE_USER");
-        Role roleUserName = new Role("ROLE_" + newUser.getUsername().toUpperCase());
-        List<Role> roles = new ArrayList<>(Arrays.asList(roleUser, roleUserName));
+        List<Role> roles = new ArrayList<>(Arrays.asList(roleUser));
 
         String password = newUser.getPassword();
         newUser.setPassword(new BCryptPasswordEncoder().encode(password));
