@@ -24,7 +24,21 @@ spring:
     username: codefolio
     password: landvibe123
   session:
-    store-type: none
+    store-type: redis
+  redis:
+    host: localhost
+    password: admin1234
+    port: 6379
+
+github:
+  client:
+    client-id: bafde5b8fa7e370b56fb
+    client-secret: 85b2cf9dcafd913f7d468e7ed52f3a0811d27402
+    access-token-uri: https://github.com/login/oauth/access_token
+    user-authorization-uri: https://github.com/login/oauth/authorize
+    authentication-scheme: form
+  resource:
+    user-info-uri: https://api.github.com/user
 
 ---
 
@@ -40,5 +54,7 @@ spring:
   session:
     store-type: none
 
-
-
+github:
+    client:
+      client-id: bafde5b8fa7e370b56fb
+      client-secret: 85b2cf9dcafd913f7d468e7ed52f3a0811d27402

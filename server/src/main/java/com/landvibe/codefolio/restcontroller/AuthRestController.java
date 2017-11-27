@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 @RestController
 public class AuthRestController {
@@ -41,7 +42,7 @@ public class AuthRestController {
 
     @PostMapping("/api/signup")
     public User signUp(@RequestBody User user) {
-        return userService.create(user);
+        return userService.create(user, Optional.empty());
     }
 
 }

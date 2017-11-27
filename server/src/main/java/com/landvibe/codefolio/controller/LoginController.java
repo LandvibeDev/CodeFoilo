@@ -11,7 +11,7 @@ public class LoginController {
         return "app";
     }
 
-    @GetMapping("/signup")
+    @GetMapping(value = {"/signup", "/signup/{username}"})
     public String signup() {
         return "app";
     }

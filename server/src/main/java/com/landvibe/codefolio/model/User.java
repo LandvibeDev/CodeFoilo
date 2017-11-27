@@ -1,17 +1,17 @@
 package com.landvibe.codefolio.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
@@ -31,8 +31,15 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String username;
 
-    @Column(nullable = false)
     private String password;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Calendar createdAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Calendar updatedAt;
 
     @ManyToMany(targetEntity = Role.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
@@ -59,38 +66,18 @@ public class User implements UserDetails {
     }
 
     public User(String username, String password, Collection<Role> roles) {
-        this.username = username;
-        this.password = password;
-        this.roles = roles;
-        this.token = null;
-        this.isAccountNonExpired = true;
-        this.isAccountNonLocked = true;
-        this.isCredentialsNonExpired = true;
-        this.isEnabled = true;
+        this(username, password, roles, true, true, true, true, null);
     }
 
     public User(String username, String password, Collection<Role> roles, String token) {
-        this.username = username;
-        this.password = password;
-        this.roles = roles;
-        this.token = token;
-        this.isAccountNonExpired = true;
-        this.isAccountNonLocked = true;
-        this.isCredentialsNonExpired = true;
-        this.isEnabled = true;
+        this(username, password, roles, true, true, true, true, token);
     }
 
     /**
      * Using for UserService.loadUserByUsername
      */
     public User(String username, String password, Collection<Role> roles, boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled) {
-        this.username = username;
-        this.password = password;
-        this.roles = roles;
-        this.isAccountNonExpired = isAccountNonExpired;
-        this.isAccountNonLocked = isAccountNonLocked;
-        this.isCredentialsNonExpired = isCredentialsNonExpired;
-        this.isEnabled = isEnabled;
+        this(username, password, roles, isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled, null);
     }
 
     public User(String username, String password, Collection<Role> roles, boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled, String token) {
@@ -148,5 +135,9 @@ public class User implements UserDetails {
     @Override
     public String toString() {
         return this.username;
+    }
+
+    public boolean isEmptyPassword() {
+        return StringUtils.isEmpty(this.password);
     }
 }

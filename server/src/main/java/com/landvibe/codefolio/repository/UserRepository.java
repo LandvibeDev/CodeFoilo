@@ -7,8 +7,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends CrudRepository<User, Long> {
 
-    User findByUsername(String username);
+    @Query("SELECT u FROM User u JOIN FETCH u.roles WHERE u.username = :username ")
+    User findByUsername(@Param("username") String username);
 
-    @Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM User c WHERE c.username = :userName")
-    boolean existsByName(@Param("userName") String userName);
+    @Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM User c WHERE c.username = :username")
+    boolean existsByName(@Param("username") String username);
 }

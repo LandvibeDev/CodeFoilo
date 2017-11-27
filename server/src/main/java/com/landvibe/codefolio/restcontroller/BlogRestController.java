@@ -17,42 +17,42 @@ public class BlogRestController {
     @Autowired
     private BlogService blogService;
 
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @GetMapping("/api/blog")
     @ResponseStatus(value = HttpStatus.OK)
     public List<Blog> getAllBlog(@CurrentUser User user) {
         return blogService.getAllBlog();
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @GetMapping("/api/blog/user/{uid}")
     @ResponseStatus(value = HttpStatus.OK)
     public List<Blog> getBlogsByUserId(@CurrentUser User user, @PathVariable long uid) {
         return blogService.getBlogsByUserId(uid);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @GetMapping("/api/blog/{id}")
     @ResponseStatus(value = HttpStatus.OK)
     public Blog getBlog(@CurrentUser User user, @PathVariable long id) {
         return blogService.getBlog(id);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @PostMapping("/api/blog")
     @ResponseStatus(value = HttpStatus.CREATED)
     public Blog createBlog(@CurrentUser User user, @RequestBody Blog blog) {
         return blogService.createBlog(blog, user);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @PutMapping("/api/blog/{id}")
     @ResponseStatus(value = HttpStatus.OK)
     public Blog updateBlog(@CurrentUser User user, @PathVariable long id, @RequestBody Blog blog) {
         return blogService.updateBlog(user, id, blog);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @DeleteMapping("/api/blog/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteBlog(@CurrentUser User user, @PathVariable long id) {

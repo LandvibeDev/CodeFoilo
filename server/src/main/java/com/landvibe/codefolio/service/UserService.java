@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -36,19 +37,28 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
+    public Optional<User> getUserByUsername(String username){
+        return Optional.ofNullable(userRepository.findByUsername(username));
+    }
+
     @Transactional
-    public User create(User newUser) {
+    public User create(User newUser, Optional<String> newRole) {
         boolean exists = userRepository.existsByName(newUser.getUsername());
         if (exists) {
             throw new UserExistException(newUser.getUsername() + "는 이미 존재하는 유저입니다.");
         }
 
+        // Set Role
         Role roleUser = getNormalUserRole("ROLE_USER");
         List<Role> roles = new ArrayList<>(Arrays.asList(roleUser));
+        if(newRole.isPresent()){
+            roles.add(getNormalUserRole(newRole.get()));
+        }
+        newUser.setRoles(roles);
 
+        // Set Password
         String password = newUser.getPassword();
         newUser.setPassword(new BCryptPasswordEncoder().encode(password));
-        newUser.setRoles(roles);
 
         return userRepository.save(newUser);
     }
