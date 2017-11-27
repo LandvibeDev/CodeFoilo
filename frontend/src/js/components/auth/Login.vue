@@ -67,7 +67,6 @@
                 }).catch(err => {
                 this.$router.push("/signup")
             });
-
         }
     }
 
