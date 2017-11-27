@@ -1,12 +1,19 @@
 <template>
     <div class="parallax-container">
         <div class="container row">
-            <div class="cf-margin col s10 offset-s1">
-                <div class="row center">
-                    <img src="/img/icon2.png" height="50">
+            <div class="col s10 offset-s1">
+                <div class="cf-img-margin center">
+                    <img src="/img/code.png" height="50">
                 </div>
-                <div class="cf-form-margin">
-                    <form class="col s12 m8 offset-m2 l6 offset-l3">
+                <div class="col s12 m8 offset-m2 l6 offset-l3">
+                    <div>
+                        <h6 align="right">
+                            <span style="color: #26a69a; font-weight: bold; font-size: 21px;">LOGIN</span>
+                            <span style="color: white;"> / </span>
+                            <a href="/signup" style="color: white;">SIGNUP</a>
+                        </h6>
+                    </div>
+                    <form class="row">
                         <div class="row">
                             <div class="input-field col s12">
                                 <input id="email" type="email" class="validate">
@@ -20,7 +27,8 @@
                             </div>
                         </div>
                         <div class="row cf-btn-padding">
-                            <button class="btn-large waves-effect waves-light col s12" name="action" @click="submit"> Login
+                            <button class="btn-large waves-effect waves-light col s12" name="action"
+                                    @click="submit">LOGIN
                             </button>
                         </div>
                     </form>
@@ -39,8 +47,8 @@
     @Component
     export default class Login extends Base {
 
-        email='';
-        password='';
+        email = '';
+        password = '';
 
         submit() {
             if (!this.$refs.form.validate()) {
@@ -63,38 +71,17 @@
         }
     }
 
-    //    import Component from 'vue-class-component'
-    //    import Base from 'Base.vue'
-    //
-    //    @Component
-    //    export default class Login extends Base {
-    //        form= {
-    //            name: '',
-    //            region: '',
-    //            date1: '',
-    //            date2: '',
-    //            delivery: false,
-    //            type: [],
-    //            resource: '',
-    //            desc: ''
-    //        };
-    //
-    //        onSubmit() {
-    //            console.log('submit!');
-    //        }
-    //    }
 </script>
 <style>
     .parallax-container {
         min-height: 100vh;
     }
 
-    .cf-margin {
-        margin-top: 140px;
-    }
-    .cf-form-margin {
+    .cf-img-margin {
         margin-top: 130px;
+        margin-bottom: 50px;
     }
+
     .cf-btn-padding {
         padding-top: 25px;
         padding-left: 10px;
