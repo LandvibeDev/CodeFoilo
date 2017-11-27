@@ -1,0 +1,44 @@
+server:
+  port: 8080
+
+codefolio:
+  dev-mode: true
+
+security:
+  user:
+    name: admin
+    password: admin1234
+
+spring:
+  messages:
+    encoding: UTF-8
+  application:
+    name: codefolio
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: true
+  datasource:
+    url: jdbc:mysql://codefolio.cx1hldbpd8hb.ap-northeast-2.rds.amazonaws.com:3306/codefolio
+    username: codefolio
+    password: landvibe123
+  session:
+    store-type: none
+
+---
+
+spring:
+  profiles: local
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:3306/codefolio
+    username: root
+    password: admin1234
+  session:
+    store-type: none
+
+
+
