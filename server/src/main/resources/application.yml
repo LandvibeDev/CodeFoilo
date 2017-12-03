@@ -24,7 +24,7 @@ spring:
     username: codefolio
     password: landvibe123
   session:
-    store-type: redis
+    store-type: none
   redis:
     host: localhost
     password: admin1234

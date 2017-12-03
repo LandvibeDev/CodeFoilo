@@ -44,30 +44,29 @@
     import Component from 'vue-class-component'
     import Base from 'Base.vue'
 
-    @Component
-    export default class Login extends Base {
+    export default{
 
-        email = '';
-        password = '';
-
-        submit() {
-            if (!this.$refs.form.validate()) {
-                return;
+        data() {
+            return {
+                email: '',
+                password: ''
             }
-            const postData = {
-                username: this.email,
-                password: this.password
-            };
-            this.$http.post("/api/login", postData)
-                .then(res => {
-                    const statusCode = res.status;
-                    if (statusCode === 200) {
-                        this.$router.push("/signup")
-                    }
-                }).catch(err => {
-                this.$router.push("/signup")
-            });
+        },
+
+        methods: {
+            submit() {
+                let url = '/api/login';
+                axios.post(url, {
+                    email: this.email,
+                    password: this.password
+                })
+                    .then(function (response) {
+                        location.href="/signup";
+                        console.log(response);
+                    })
+            }
         }
+
     }
 
 </script>
