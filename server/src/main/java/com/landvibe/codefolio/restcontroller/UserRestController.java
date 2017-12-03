@@ -4,7 +4,7 @@ import com.landvibe.codefolio.model.User;
 import com.landvibe.codefolio.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -18,8 +18,8 @@ public class UserRestController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-    @GetMapping("/api/user/{username}")
-    public User getUser(@PathVariable String username) {
+    @GetMapping("/api/user/")
+    public User getUser(@RequestParam String username) {
         return userService.loadUserByUsername(username);
     }
 }
