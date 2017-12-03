@@ -44,19 +44,19 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
 
         List<Role> roles = oAuth.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
-                .map(s -> new Role(s))
+                .map(Role::new)
                 .collect(Collectors.toList());
 
         Optional<User> user = userService.getUserByUsername(email);
         if (user.isPresent()) {
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
-                    user.get().getUsername(), user.get().getPassword(), user.get().getAuthorities()));
+                    user.get(), user.get().getPassword(), user.get().getAuthorities()));
             res.sendRedirect("/");
         } else {
             User newUser = new User(email, githubId, roles, token);
             userService.create(newUser, Optional.of("ROLE_OAUTH"));
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
-                    newUser.getUsername(), newUser.getPassword(), newUser.getAuthorities()));
+                    newUser, newUser.getPassword(), newUser.getAuthorities()));
             res.sendRedirect("/signup/"+newUser.getUsername());
         }
     }
