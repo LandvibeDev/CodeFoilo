@@ -47,13 +47,13 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
                 .map(Role::new)
                 .collect(Collectors.toList());
 
-        Optional<User> user = userService.getUserByUsername(email);
+        Optional<User> user = userService.getUserByUsername(githubId);
         if (user.isPresent()) {
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
                     user.get(), user.get().getPassword(), user.get().getAuthorities()));
             res.sendRedirect("/");
         } else {
-            User newUser = new User(email, githubId, roles, token);
+            User newUser = new User(githubId, token, roles, token);
             userService.create(newUser, Optional.of("ROLE_OAUTH"));
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
                     newUser, newUser.getPassword(), newUser.getAuthorities()));

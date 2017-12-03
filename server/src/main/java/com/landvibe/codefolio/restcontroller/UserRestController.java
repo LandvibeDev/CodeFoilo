@@ -18,7 +18,7 @@ public class UserRestController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-    @GetMapping("/api/user/")
+    @GetMapping("/api/user")
     public User getUser(@RequestParam String username) {
         return userService.loadUserByUsername(username);
     }
