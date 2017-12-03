@@ -19,7 +19,7 @@
         <div class="container row">
             <div class="cf-title">
                 <h1>
-                    WEL'CM
+                    WE'RE
                     <span> CODEFOLIO </span>
                 </h1>
                 <h2>
@@ -59,6 +59,9 @@
 
     .cf-logo {
         font-size: 30px;
+        img {
+            margin-top: 15px;
+        }
     }
 
     .cf-menu {
