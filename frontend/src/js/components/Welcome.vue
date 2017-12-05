@@ -2,7 +2,6 @@
     <div class="parallax-container">
         <nav class="cf-nav">
             <div class="nav-wrapper">
-                <!-- 왜 div가 nav밖으로 튀어나가는지?? -->
                 <div class="row">
                     <div class="cf-nav-padding">
                         <a href="#" class="cf-logo"><img src="/img/code.png" height="30"> CodeFolio</a>
@@ -19,14 +18,14 @@
         <div class="container row">
             <div class="cf-title">
                 <h1>
-                    WEL'CM
+                    WE'RE
                     <span> CODEFOLIO </span>
                 </h1>
                 <h2>
                     WE PROVIDES A PORTFOLIO FOR DEVELOPERS
                 </h2>
-                <button class="btn-large waves-effect waves-light col s2 offset-s5" @click="submit">
-                    Login
+                <button class="cf-start-btn btn-large waves-effect waves-light col s2 offset-s5" @click="submit">
+                    GitHub으로 시작하기
                 </button>
             </div>
             <div class="parallax">
@@ -42,7 +41,7 @@
     @Component
     export default class Welcome extends Base {
         submit() {
-            this.$router.push("/login");
+            this.$router.push("/login/github");
         }
     }
 </script>
@@ -90,6 +89,10 @@
 
     .parallax-container {
         min-height: 100vh;
+    }
+
+    .cf-start-btn {
+        font-size: 13px;
     }
 
 </style>

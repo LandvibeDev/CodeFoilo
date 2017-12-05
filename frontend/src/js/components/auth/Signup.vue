@@ -2,36 +2,40 @@
     <div class="parallax-container">
         <div class="container row">
             <div class="col s10 offset-s1">
-                <div class="cf-img-margin center">
+                <div class="cf-logo-img center">
                     <img src="/img/code.png" height="50">
                 </div>
-                <div class="col s12 m8 offset-m2 l6 offset-l3">
+                <div class="cf-user-info col s12 m8 offset-m2 l6 offset-l3">
                     <div class="cf-label-container">
-                        <a href="/login" class="cf-label-login">LOGIN</a>
-                        <span class="cf-slash"> / </span>
-                        <span class="cf-label-signup"> SIGNUP</span>
+                        <span class="cf-label-signup">회원정보입력</span>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="email" type="email" class="validate" v-model="username">
-                            <label for="email">Email Address</label>
+                            <input disabled id="id" type="text" class="validate" v-model="username">
+                            <label for="id">Github ID</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="password" type="password" class="validate" v-model="password1">
-                            <label for="password">Password</label>
+                            <input id="name" type="text" class="validate">
+                            <label for="name">User Name</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="password-cfm" type="password" class="validate" v-model="password2">
-                            <label for="password-cfm">Confirm Password</label>
+                            <input id="birth" type="text" class="datepicker">
+                            <label for="birth">Birthday</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="job" type="text" class="validate">
+                            <label for="job">Job</label>
                         </div>
                     </div>
                     <div class="row cf-btn-padding">
                         <button class="btn-large waves-effect waves-light col s12" name="action" @click="signup">
-                            SIGNUP
+                            가입완료
                         </button>
                     </div>
                 </div>
@@ -50,24 +54,33 @@
     export default class Signup extends Base {
 
         username = '';
-        password1 = '';
-        password2 = '';
 
         mounted() {
-            const username = this.$route.params.username;
-            this.loadUser(username);
+            this.loadUser();
+
+            $('.datepicker').pickadate({
+                selectMonths: true, // Creates a dropdown to control month
+                selectYears: 120, // Creates a dropdown of 15 years to control year,
+                today: 'Today',
+                clear: 'Clear',
+                close: 'Ok',
+                closeOnSelect: false // Close upon selecting a date,
+            });
         }
 
-        loadUser(username) {
-            if (!username) {
-                return;
-            }
-
-            this.$http.get(`/api/user?username=${username}`)
+        loadUser() {
+            // 유저정보 받아오는 call
+            this.$http.get(`/api/me`)
                 .then(res => {
+                    // res.data에 담김
                     this.username = res.data.username;
                 })
                 .catch(err => {
+                    if (err.response.status === 403) {
+                        // 현재 세션에 로그인된 사용자가 없음
+                        this.$router.push("/");
+                    }
+
                     console.log(err);
                 });
         }
@@ -83,26 +96,22 @@
     .parallax-container {
         min-height: 100vh;
 
-        .cf-img-margin {
-            margin-top: 130px;
-            margin-bottom: 50px;
+        .cf-logo-img {
+            margin-top: 70px;
+            margin-bottom: 30px;
+        }
+
+        .cf-user-info {
+            color: white;
         }
 
         .cf-label-container {
-            text-align: right;
-
-            .cf-label-login {
-                color: white;
-            }
-
-            .cf-slash {
-                color: white;
-            }
+            text-align: left;
 
             .cf-label-signup {
                 color: #26a69a;
                 font-weight: bold;
-                font-size: 21px;
+                font-size: 40px;
             }
         }
 

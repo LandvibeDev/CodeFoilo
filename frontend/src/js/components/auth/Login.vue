@@ -2,7 +2,7 @@
     <div class="parallax-container">
         <div class="container row">
             <div class="col s10 offset-s1">
-                <div class="cf-img-margin center">
+                <div class="cf-logo-img center">
                     <img src="/img/code.png" height="50">
                 </div>
                 <div class="col s12 m8 offset-m2 l6 offset-l3">
@@ -47,26 +47,8 @@
     @Component
     export default class Login extends Base {
 
-        email = '';
-        password = '';
-
         submit() {
-            if (!this.$refs.form.validate()) {
-                return;
-            }
-            const postData = {
-                username: this.email,
-                password: this.password
-            };
-            this.$http.post("/api/login", postData)
-                .then(res => {
-                    const statusCode = res.status;
-                    if (statusCode === 200) {
-                        this.$router.push("/signup")
-                    }
-                }).catch(err => {
-                this.$router.push("/signup")
-            });
+            this.$router.push("/signup")
         }
     }
 
@@ -76,7 +58,7 @@
         min-height: 100vh;
     }
 
-    .cf-img-margin {
+    .cf-logo-img {
         margin-top: 130px;
         margin-bottom: 50px;
     }

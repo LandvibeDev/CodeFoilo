@@ -58,3 +58,12 @@ github:
     client:
       client-id: bafde5b8fa7e370b56fb
       client-secret: 85b2cf9dcafd913f7d468e7ed52f3a0811d27402
+
+---
+
+spring:
+  profiles: local-hkj
+github:
+  client:
+    client-id: 6c63068f817a827aa801
+    client-secret: 8bca60df8f32a13c7ff96cca9ef52aeac3888a8d

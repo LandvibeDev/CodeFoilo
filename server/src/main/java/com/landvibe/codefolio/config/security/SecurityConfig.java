@@ -61,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/main", "/login", "/signup", "/api/login", "/api/signup","/login/github").permitAll()
+                .antMatchers("/", "/main", "/login", "/signup", "/api/login", "/api/signup","/login/github","/api/me").permitAll()
                 //.antMatchers("/portfolio").permitAll() // TODO 포트폴리오 페이지 완성시 삭제
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()

@@ -64,6 +64,9 @@
                 </div>
             </div>
         </div>
+        <div class="parallax">
+            <img src="img/bluegreen.jpg" style="display: block;">
+        </div>
     </div>
 </template>
 <script>

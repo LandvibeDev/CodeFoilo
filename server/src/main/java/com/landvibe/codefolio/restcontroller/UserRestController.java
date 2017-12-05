@@ -1,5 +1,6 @@
 package com.landvibe.codefolio.restcontroller;
 
+import com.landvibe.codefolio.config.annotation.CurrentUser;
 import com.landvibe.codefolio.model.User;
 import com.landvibe.codefolio.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,8 +19,14 @@ public class UserRestController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-    @GetMapping("/api/user/")
+    @GetMapping("/api/user")
     public User getUser(@RequestParam String username) {
         return userService.loadUserByUsername(username);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+    @GetMapping("/api/me")
+    public User getMe(@CurrentUser User user) {
+        return user; // TODO null 들어올 때 체크
     }
 }
