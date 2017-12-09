@@ -39,6 +39,8 @@ github:
     authentication-scheme: form
   resource:
     user-info-uri: https://api.github.com/user
+  api-host: https://api.github.com
+
 
 ---
 
