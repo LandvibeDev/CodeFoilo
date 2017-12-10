@@ -43,17 +43,22 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="collection">
+                            <div class="collection-item">
+                                <h5>Organizations</h5>
+                            </div>
+                        </div>
+                        <div class="collection">
                             <ul>
-                                <li class="cf-group-outline collection-item" v-for="item in groups">
+                                <li class="cf-group-outline collection-item" v-for="org in organizations">
                                     <div class="row">
                                         <div class="col s10">
-                                            <h6 class="cf-group-name"> {{ item.title }} </h6>
+                                            <h6 class="cf-group-name"> {{ org.title }} </h6>
                                         </div>
                                         <div class="cf-left-chkbox col s1">
                                             <p>
-                                                <input type="checkbox" class="filled-in" v-bind:id="item.idx"
+                                                <input type="checkbox" class="filled-in" v-bind:id="org.idx"
                                                        checked="checked"/>
-                                                <label v-bind:for="item.idx"></label>
+                                                <label v-bind:for="org.idx"></label>
                                             </p>
                                         </div>
                                     </div>
@@ -74,6 +79,7 @@
                                             <h5 class="cf-repo-title"> {{ item.title }} </h5>
                                             <h6 class="cf-repo-contents"> {{ item.contents }} </h6>
                                             <h6 class="cf-repo-lang"> {{ item.lang }} </h6>
+                                            <h6 class="cf-repo-period"> {{ item.start }} ~ {{ item.end}} </h6>
                                         </div>
                                         <div class="cf-right-chkbox col s1">
                                             <p>
@@ -103,7 +109,7 @@
     export default class Login extends Base {
 
         items = [];
-        groups = [];
+        organizations = [];
 
         mounted() {
             this.items =
@@ -111,25 +117,47 @@
                     title: "incubator-openwhisk-package-alarms",
                     contents: "Apache OpenWhisk package that can be used to create periodic, time-based alarms",
                     lang: "Javascript",
-                    idx: "filled-in-box1"
+                    idx: "filled-in-box1",
+                    start: "2017-12-08",
+                    end: ""
                 }, {
                     title: "incubator-openwhisk",
                     contents: "Apache OpenWhisk is a serverless event-based programming service and an Apache Incubator project.",
                     lang: "Scala",
-                    idx: "filled-in-box2"
+                    idx: "filled-in-box2",
+                    start: "2017-11-01",
+                    end: ""
                 }, {
                     title: "Handicraft-Android",
                     contents: "반쪽이 공방 안드로이드 앱",
                     lang: "Java",
-                    idx: "filled-in-box3"
+                    idx: "filled-in-box3",
+                    start: "2017-07-15",
+                    end: "2017-10-15"
                 }, {
-                    title: "ForApiTest",
-                    contents: "ForApiTest",
-                    lang: "",
-                    idx: "filled-in-box4"
+                    title: "dstagram",
+                    contents: "땅울림 파이썬 스터디 코드랩 코드입니다",
+                    lang: "python",
+                    idx: "filled-in-box4",
+                    start: "2017-04-28",
+                    end: "2017-04-30"
+                }, {
+                    title: "Udacity-Android-Exercise",
+                    contents: "Udacity Android Course Exercise",
+                    lang: "java",
+                    idx: "filled-in-box5",
+                    start: "2016-12-28",
+                    end: "2017-01-15"
+                }, {
+                    title: "inohack-android",
+                    contents: "inohack-android",
+                    lang: "java",
+                    idx: "filled-in-box6",
+                    start: "2016-09-26",
+                    end: "2016-09-27"
                 }];
 
-            this.groups =
+            this.organizations =
                 [{
                     title: "AlgorithmSolving",
                     idx: 1
