@@ -13,12 +13,22 @@ public class PortfolioController {
     private Logger logger = LoggerFactory.getLogger(PortfolioController.class);
 
     @GetMapping("/portfolio")
-    public String main(@CurrentUser User user) {
+    public String portfolio(@CurrentUser User user) {
         if (user == null) {
-            logger.info("Anonymous user's portfolio");
-        } else {
-            logger.info(user.getUsername() + "'s portfolio");
+            return "redirect:/login/github";
         }
+
+        logger.info(user.getUsername() + "'s portfolio");
+        return "app";
+    }
+
+    @GetMapping("/github")
+    public String github(@CurrentUser User user) {
+        if (user == null) {
+            return "redirect:/login/github";
+        }
+
+        logger.info(user.getUsername() + "'s github data");
         return "app";
     }
 }
