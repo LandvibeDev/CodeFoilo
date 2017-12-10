@@ -175,6 +175,7 @@
 <style scoped lang="less">
     .cf-nav {
         background: black;
+        margin-bottom: 15px;
     }
 
     .cf-nav-padding {
