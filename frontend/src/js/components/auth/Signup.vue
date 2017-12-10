@@ -17,19 +17,13 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="name" type="text" class="validate">
+                            <input id="name" type="text" class="validate" v-model="name">
                             <label for="name">User Name</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="birth" type="text" class="datepicker">
-                            <label for="birth">Birthday</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <input id="job" type="text" class="validate">
+                            <input id="job" type="text" class="validate" v-model="job">
                             <label for="job">Job</label>
                         </div>
                     </div>
@@ -54,39 +48,58 @@
     export default class Signup extends Base {
 
         username = '';
+        name = '';
+        job = '';
 
         mounted() {
             this.loadUser();
-
-            $('.datepicker').pickadate({
-                selectMonths: true, // Creates a dropdown to control month
-                selectYears: 120, // Creates a dropdown of 15 years to control year,
-                today: 'Today',
-                clear: 'Clear',
-                close: 'Ok',
-                closeOnSelect: false // Close upon selecting a date,
-            });
         }
 
         loadUser() {
-            // 유저정보 받아오는 call
             this.$http.get(`/api/me`)
                 .then(res => {
-                    // res.data에 담김
                     this.username = res.data.username;
                 })
                 .catch(err => {
                     if (err.response.status === 403) {
-                        // 현재 세션에 로그인된 사용자가 없음
                         this.$router.push("/");
                     }
-
                     console.log(err);
                 });
         }
 
         signup() {
+            const data = {
+                username: this.username,
+                name: this.name,
+                job: this.job
+            };
+            this.$http.post('/api/signup', data)
+                .then(res => {
+                    if (res.status === 200) {
+                        this.$swal({
+                            title: "회원 가입 완료!",
+                            icon: "success"
+                        }).then(() => this.$router.push("/"));
+                        return;
+                    }
 
+                    this.$swal({
+                        title: "상세 정보 입력 실패",
+                        text: "회원 정보를 다시 입력해 주세요.",
+                        icon: "warning",
+                        dangerMode: true
+                    });
+                })
+                .catch(err => {
+                    this.$swal({
+                        title: "상세 정보 입력 실패",
+                        text: "회원 정보를 다시 입력해 주세요.",
+                        icon: "warning",
+                        dangerMode: true
+                    });
+                    console.log(err);
+                });
         }
 
 

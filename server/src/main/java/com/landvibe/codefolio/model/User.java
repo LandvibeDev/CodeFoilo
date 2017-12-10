@@ -1,7 +1,6 @@
 package com.landvibe.codefolio.model;
 
 import com.fasterxml.jackson.annotation.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,8 +29,15 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     private String username;
-
     private String password;
+    private String name;
+    private String avatarUrl;
+    private String email;
+    private String job;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Calendar birthday;
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -58,31 +64,26 @@ public class User implements UserDetails {
     @Transient
     private String token;
 
-    public User() {
+    protected User() {
         this.isAccountNonExpired = true;
         this.isAccountNonLocked = true;
         this.isCredentialsNonExpired = true;
         this.isEnabled = true;
     }
 
-    public User(String username, String password, Collection<Role> roles) {
-        this(username, password, roles, true, true, true, true, null);
+    public User(String username, String password, String name, String avatarUrl, String email, Collection<Role> roles, String token) {
+        this(username, password, name, avatarUrl, email, null, Calendar.getInstance(), Calendar.getInstance(), roles, true, true, true, true, token);
     }
 
-    public User(String username, String password, Collection<Role> roles, String token) {
-        this(username, password, roles, true, true, true, true, token);
-    }
-
-    /**
-     * Using for UserService.loadUserByUsername
-     */
-    public User(String username, String password, Collection<Role> roles, boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled) {
-        this(username, password, roles, isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled, null);
-    }
-
-    public User(String username, String password, Collection<Role> roles, boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled, String token) {
+    public User(String username, String password, String name, String avatarUrl, String email, String job, Calendar createdAt, Calendar updatedAt, Collection<Role> roles, boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled, String token) {
         this.username = username;
         this.password = password;
+        this.name = name;
+        this.avatarUrl = avatarUrl;
+        this.email = email;
+        this.job = job;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.roles = roles;
         this.isAccountNonExpired = isAccountNonExpired;
         this.isAccountNonLocked = isAccountNonLocked;
