@@ -7,9 +7,8 @@
                         <a href="#" class="cf-logo"><img src="/img/code.png" height="30"> CodeFolio</a>
                         <ul id="nav-mobile" class="cf-menu right hide-on-med-and-down">
                             <li><a href="/">HOME</a></li>
+                            <li><a href="/github">MyGitHub</a></li>
                             <li><a href="/portfolio">PORTFOLIO</a></li>
-                            <li><a href="/login">BLOG</a></li>
-                            <li><a href="/login">LOGIN</a></li>
                         </ul>
                     </div>
                 </div>
@@ -24,9 +23,16 @@
                 <h2>
                     WE PROVIDES A PORTFOLIO FOR DEVELOPERS
                 </h2>
-                <a class="cf-start-btn btn-large waves-effect waves-light col s2 offset-s5" href="/login/github">
-                    GitHub으로 시작하기
-                </a>
+                <div v-if="hasAuthenticated">
+                    <a class="cf-start-btn btn-large waves-effect waves-light col s2 offset-s5" href="/github">
+                        나만의 포트폴리오 만들기
+                    </a>
+                </div>
+                <div v-else="">
+                    <a class="cf-start-btn btn-large waves-effect waves-light col s2 offset-s5" href="/login/github" @click="loading">
+                        GitHub으로 시작하기
+                    </a>
+                </div>
             </div>
             <div class="parallax">
                 <img src="img/mac.jpg" style="display: block;">
@@ -41,6 +47,27 @@
     @Component
     export default class Welcome extends Base {
 
+        hasAuthenticated = false;
+
+        mounted() {
+            this.$http.get("/api/auth")
+                .then(res => {
+                    if (res.status === 200) {
+                        this.hasAuthenticated = true;
+                    } else {
+                        this.hasAuthenticated = false;
+                    }
+                }).catch(err => this.hasAuthenticated = false);
+        }
+
+        loading() {
+            const loading = this.$loading({
+                lock: true,
+                text: '로그인 요청중...',
+                spinner: 'el-icon-loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+            });
+        }
     }
 </script>
 <style scoped lang="less">
@@ -91,6 +118,17 @@
 
     .cf-start-btn {
         font-size: 13px;
+    }
+
+</style>
+<style lang="less">
+    .el-loading-spinner {
+        .el-icon-loading {
+            color: aqua;
+        }
+        .el-loading-text {
+            color: aqua;
+        }
     }
 
 </style>

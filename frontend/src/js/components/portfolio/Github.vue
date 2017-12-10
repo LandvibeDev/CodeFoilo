@@ -7,9 +7,8 @@
                         <a href="#" class="cf-logo"><img src="/img/code.png" height="30"> CodeFolio</a>
                         <ul id="nav-mobile" class="cf-menu right hide-on-med-and-down">
                             <li><a href="/">HOME</a></li>
+                            <li><a href="/github">MyGitHub</a></li>
                             <li><a href="/portfolio">PORTFOLIO</a></li>
-                            <li><a href="/login">BLOG</a></li>
-                            <li><a href="/login">LOGIN</a></li>
                         </ul>
                     </div>
                 </div>
