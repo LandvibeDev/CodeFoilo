@@ -24,9 +24,9 @@
                 <h2>
                     WE PROVIDES A PORTFOLIO FOR DEVELOPERS
                 </h2>
-                <button class="cf-start-btn btn-large waves-effect waves-light col s2 offset-s5" @click="submit">
+                <a class="cf-start-btn btn-large waves-effect waves-light col s2 offset-s5" href="/login/github">
                     GitHub으로 시작하기
-                </button>
+                </a>
             </div>
             <div class="parallax">
                 <img src="img/mac.jpg" style="display: block;">
@@ -40,9 +40,7 @@
 
     @Component
     export default class Welcome extends Base {
-        submit() {
-            this.$router.push("/login/github");
-        }
+
     }
 </script>
 <style scoped lang="less">

@@ -1,20 +1,20 @@
 package com.landvibe.codefolio.restcontroller;
 
-import com.landvibe.codefolio.model.dto.AuthenticationRequest;
 import com.landvibe.codefolio.model.User;
+import com.landvibe.codefolio.model.dto.AuthenticationRequest;
+import com.landvibe.codefolio.model.dto.UserInfoRequest;
 import com.landvibe.codefolio.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.Optional;
 
 @RestController
 public class AuthRestController {
@@ -40,9 +40,10 @@ public class AuthRestController {
         return user;
     }
 
-    @PostMapping("/api/signup")
-    public User signUp(@RequestBody User user) {
-        return userService.create(user, Optional.empty());
+    @PostMapping(value = "/api/signup", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void signUp(@RequestBody UserInfoRequest userInfoRequest) {
+        userService.update(userInfoRequest.getUsername(), userInfoRequest.getName(), userInfoRequest.getJob());
     }
 
 }

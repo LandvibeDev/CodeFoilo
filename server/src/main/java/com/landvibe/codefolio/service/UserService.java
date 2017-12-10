@@ -7,12 +7,10 @@ import com.landvibe.codefolio.repository.RoleRepository;
 import com.landvibe.codefolio.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,28 +35,23 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public Optional<User> getUserByUsername(String username){
+    public Optional<User> getUserByUsername(String username) {
         return Optional.ofNullable(userRepository.findByUsername(username));
     }
 
     @Transactional
-    public User create(User newUser, Optional<String> newRole) {
+    public User create(User newUser, List<Role> newRoles) {
         boolean exists = userRepository.existsByName(newUser.getUsername());
         if (exists) {
             throw new UserExistException(newUser.getUsername() + "는 이미 존재하는 유저입니다.");
         }
 
         // Set Role
-        Role roleUser = getNormalUserRole("ROLE_USER");
-        List<Role> roles = new ArrayList<>(Arrays.asList(roleUser));
-        if(newRole.isPresent()){
-            roles.add(getNormalUserRole(newRole.get()));
+        List<Role> roles = new ArrayList<>();
+        for(Role role : newRoles){
+            roles.add(getNormalUserRole(role.getName()));
         }
         newUser.setRoles(roles);
-
-        // Set Password
-        String password = newUser.getPassword();
-        newUser.setPassword(new BCryptPasswordEncoder().encode(password));
 
         return userRepository.save(newUser);
     }
@@ -74,12 +67,13 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public User update(User user) {
-        boolean exists = userRepository.exists(user.getId());
-        if (!exists) {
-            throw new UsernameNotFoundException(user.getUsername() + "는 존재하지 않는 유저입니다.");
+    public void update(String username, String name, String job) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException(username + "는 존재하지 않는 유저입니다.");
         }
-        return userRepository.save(user);
+        user.setName(name);
+        user.setJob(job);
     }
 
     @Transactional

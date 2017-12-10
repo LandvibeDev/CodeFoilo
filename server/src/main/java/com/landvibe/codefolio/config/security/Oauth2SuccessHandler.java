@@ -36,7 +36,6 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
         OAuth2AuthenticationDetails oAuthDetails = (OAuth2AuthenticationDetails) oAuth.getDetails();
         Map<String, Object> githubUser = (LinkedHashMap) oAuth.getUserAuthentication().getDetails();
 
-        // TODO 회원가입시 추가하기 - 건희
         String email = (String) githubUser.get("email");
         String avatar = (String) githubUser.get("avatar_url");
         String name = (String) githubUser.get("name");
@@ -50,11 +49,12 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
 
         Optional<User> user = userService.getUserByUsername(githubId);
         if (user.isPresent()) {
-            SecurityContextHolder .getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
+            SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
                     user.get(), user.get().getPassword(), user.get().getAuthorities()));
             res.sendRedirect("/");
         } else {
-            User newUser = new User(githubId, token, roles, token);
+            User newUser = new User(githubId, token, name, avatar, email, null, token);
+            userService.create(newUser, roles);
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
                     newUser, newUser.getPassword(), newUser.getAuthorities()));
             res.sendRedirect("/signup");
