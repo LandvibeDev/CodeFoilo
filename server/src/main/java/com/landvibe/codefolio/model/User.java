@@ -34,6 +34,7 @@ public class User implements UserDetails {
     private String avatarUrl;
     private String email;
     private String job;
+    private String token;
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -60,9 +61,6 @@ public class User implements UserDetails {
     private boolean isAccountNonLocked;
     private boolean isCredentialsNonExpired;
     private boolean isEnabled;
-
-    @Transient
-    private String token;
 
     protected User() {
         this.isAccountNonExpired = true;
